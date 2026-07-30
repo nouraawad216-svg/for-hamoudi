@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Hamoudi 🤎🌿</title>
+
+    <!-- الخطوط من جوجل -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- أيقونات Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* ==================================================
+           1. النمط العام والألوان (البيج والأخضر الغامق)
+        ================================================== */
+        :root {
+            --bg-beige: #F7F3ED;
+            --card-beige: #EFEAE1;
+            --primary-green: #1B382B;
+            --accent-green: #2D5A45;
+            --light-green: #3D735B;
+            --text-dark: #12231A;
+            --text-muted: #4F6358;
+            --gold-accent: #C5A059;
+            --white: #FFFFFF;
+            --font-main: 'Cairo', sans-serif;
+            --font-title: 'Tajawal', sans-serif;
+            --font-poetic: 'Amiri', serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-beige);
+            color: var(--text-dark);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            background-image: radial-gradient(#1b382b15 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* حاوية الموقع الرئيسية (مصممة لشاشة الموبايل) */
+        .app-container {
+            width: 100%;
+            max-width: 430px;
+            min-height: 100vh;
+            background-color: var(--bg-beige);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 15px 35px rgba(27, 56, 43, 0.15);
+            overflow: hidden;
+        }
+
+        @media (min-width: 480px) {
+            .app-container {
+                min-height: 840px;
+                height: 90vh;
+                border-radius: 35px;
+                border: 8px solid var(--primary-green);
+                margin: 20px 0;
+            }
+        }
+
+        /* ==================================================
+           2. شاشة الباسكود (الصفحة الأولـى)
+        ================================================== */
+        #passcode-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-green);
+            color: var(--bg-beige);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 20px 50px 20px;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.6s ease;
+        }
+
+        #passcode-screen.unlocked {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .passcode-header {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .passcode-header .gift-icon {
+            font-size: 42px;
+            color: var(--gold-accent);
+            margin-bottom: 12px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .passcode-header h1 {
+            font-family: var(--font-title);
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--bg-beige);
+            margin-bottom: 8px;
+        }
+
+        .passcode-header p {
+            font-size: 14px;
+            opacity: 0.8;
+            color: #D3E0D9;
+        }
+
+        /* خانات العرض الدائرية */
+        .passcode-display {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid var(--gold-accent);
+            transition: all 0.2s ease;
+        }
+
+        .dot.active {
+            background-color: var(--gold-accent);
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.6);
+            transform: scale(1.15);
+        }
+
+        .dot.error {
+            border-color: #E74C3C;
+            background-color: #E74C3C;
+            animation: shake 0.4s ease-in-out;
+        }
+
+        /* لوحة الأرقام */
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px 25px;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .key-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--bg-beige);
+            font-size: 24px;
+            font-family: var(--font-title);
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin: 0 auto;
+            transition: all 0.15s ease;
+        }
+
+        .key-btn:active {
+            background-color: var(--gold-accent);
+            color: var(--primary-green);
+            transform: scale(0.92);
+        }
+
+        .key-btn.action-btn {
+            font-size: 18px;
+            border: none;
+            background: transparent;
+        }
+
+        .passcode-hint {
+            font-size: 12px;
+            color: var(--gold-accent);
+            letter-spacing: 0.5px;
+            margin-top: -10px;
+        }
+
+        /* ==================================================
+           3. المحتوى الرئيسي والشريط الأعلى
+        ================================================== */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+
+        /* الهيدر العلوي */
+        .top-navbar {
+            padding: 18px 20px 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(27, 56, 43, 0.08);
+            background-color: var(--bg-beige);
+            z-index: 10;
+        }
+
+        .top-navbar .brand {
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* مؤشر الصفحات (4 نقاط) */
+        .page-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .page-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #D5CDC0;
+            transition: all 0.3s ease;
+        }
+
+        .page-dot.active {
+            width: 20px;
+            border-radius: 10px;
+            background-color: var(--primary-green);
+        }
+
+        /* حاوية الصفحات */
+        .pages-wrapper {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 25px 22px 90px 22px;
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(30px);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        /* شريط التصفح السفلي (السابق / التالي) */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 22px 20px 22px;
+            background: linear-gradient(to top, var(--bg-beige) 80%, rgba(247, 243, 237, 0));
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 15;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            border-radius: 25px;
+            border: 1px solid var(--primary-green);
+            background-color: transparent;
+            color: var(--primary-green);
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn.primary {
+            background-color: var(--primary-green);
+            color: var(--bg-beige);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* ==================================================
+           4. تصميم الصفحات
+        ================================================== */
+        
+        /* عناوين الصفحات */
+        .section-tag {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-green);
+            background-color: rgba(45, 90, 69, 0.1);
+            padding: 4px 14px;
+            border-radius: 15px;
+            margin-bottom: 8px;
+            width: fit-content;
+        }
+
+        .page-title {
+            font-family: var(--font-title);
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        /* ---- الصفحة الأولى: التهنئة ---- */
+        .birthday-card {
+            background-color: var(--card-beige);
+            border-radius: 20px;
+            padding: 25px 20px;
+            border: 1px solid rgba(27, 56, 43, 0.1);
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            margin-top: 10px;
+        }
+
+        .birthday-card::before {
+            content: '“';
+            font-family: var(--font-poetic);
+            font-size: 80px;
+            color: var(--accent-green);
+            opacity: 0.2;
+            position: absolute;
+            top: -10px;
+            right: 15px;
+        }
+
+        .card-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-dark);
+            text-align: justify;
+        }
+
+        .card-signature {
+            margin-top: 20px;
+            text-align: left;
+            font-family: var(--font-poetic);
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+
+        .heart-badge {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto 10px auto;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-green);
+            color: var(--gold-accent);
+            font-size: 24px;
+        }
+
+        /* ---- الصفحة الثانية: المعرض (5 صور) ---- */
+        .gallery-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-top: 10px;
+        }
+
+        .photo-card {
+            background-color: var(--white);
+            padding: 12px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid rgba(27, 56, 43, 0.08);
+        }
+
+        .photo-wrapper {
+            width: 100%;
+            height: 230px;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #E6E0D4;
+        }
+
+        .photo-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-caption {
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-green);
+            text-align: center;
+        }
+
+        /* ---- الصفحة الثالثة: الفيديو والأغنية ---- */
+        .media-box {
+            background-color: var(--card-beige);
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(27, 56, 43, 0.1);
+        }
+
+        .media-box h3 {
+            font-size: 16px;
+            color: var(--primary-green);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .video-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .video-container video {
+            width: 100%;
+            display: block;
+            max-height: 240px;
+        }
+
+        .audio-container {
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .audio-container audio {
+            width: 100%;
+            border-radius: 30px;
+        }
+
+        /* ---- الصفحة الرابعة: رسالة حبيب العمر ---- */
+        .final-letter-card {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+            color: var(--bg-beige);
+            padding: 30px 22px;
+            border-radius: 25px;
+            box-shadow: 0 10px 25px rgba(27, 56, 43, 0.25);
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-letter-card::after {
+            content: '🌿';
+            font-size: 120px;
+            position: absolute;
+            bottom: -30px;
+            left: -20px;
+            opacity: 0.1;
+        }
+
+        .letter-content {
+            font-family: var(--font-poetic);
+            font-size: 20px;
+            line-height: 1.9;
+            text-align: center;
+            color: #F9F6F0;
+            white-space: pre-line;
+        }
+
+        .final-signature {
+            margin-top: 25px;
+            font-family: var(--font-title);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold-accent);
+            text-align: center;
+        }
+
+        /* ==================================================
+           5. التأثيرات والحركات (Animations)
+        ================================================== */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        /* القلوب المتساقطة عند الفتح */
+        .heart-particle {
+            position: fixed;
+            font-size: 20px;
+            pointer-events: none;
+            z-index: 999;
+            animation: floatUp 2.5s linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- ==================================================
+             شاشة الباسكود (صفحة القفل 12 20)
+        ================================================== -->
+        <div id="passcode-screen">
+            <div class="passcode-header">
+                <div class="gift-icon">
+                    <i class="fa-solid fa-gift"></i>
+                </div>
+                <h1>مفاجأة لـ حمودي 🤎</h1>
+                <p>اكتب تاريخنا المميز للفتح</p>
+            </div>
+
+            <div>
+                <div class="passcode-display">
+                    <div class="dot" id="dot-1"></div>
+                    <div class="dot" id="dot-2"></div>
+                    <div class="dot" id="dot-3"></div>
+                    <div class="dot" id="dot-4"></div>
+                </div>
+                <div class="passcode-hint" id="pass-hint" style="text-align: center; opacity: 0.7;">
+                    ( 12 20 )
+                </div>
+            </div>
+
+            <!-- لوحة المفاتيح -->
+            <div class="keypad">
+                <button class="key-btn" onclick="pressKey('1')">1</button>
+                <button class="key-btn" onclick="pressKey('2')">2</button>
+                <button class="key-btn" onclick="pressKey('3')">3</button>
+                <button class="key-btn" onclick="pressKey('4')">4</button>
+                <button class="key-btn" onclick="pressKey('5')">5</button>
+                <button class="key-btn" onclick="pressKey('6')">6</button>
+                <button class="key-btn" onclick="pressKey('7')">7</button>
+                <button class="key-btn" onclick="pressKey('8')">8</button>
+                <button class="key-btn" onclick="pressKey('9')">9</button>
+                <button class="key-btn action-btn" onclick="clearPasscode()"><i class="fa-solid fa-rotate-left"></i></button>
+                <button class="key-btn" onclick="pressKey('0')">0</button>
+                <button class="key-btn action-btn" onclick="deleteKey()"><i class="fa-solid fa-delete-left"></i></button>
+            </div>
+        </div>
+
+        <!-- ==================================================
+             المحتوى الرئيسي للموقع (4 صفحات)
+        ================================================== -->
+        <div class="main-content">
+
+            <!-- الهيدر العلوي ومؤشر النقاط -->
+            <div class="top-navbar">
+                <div class="brand">
+                    <i class="fa-solid fa-heart" style="color: var(--accent-green);"></i>
+                    <span>حمودي 🤎</span>
+                </div>
+                <div class="page-dots">
+                    <div class="page-dot active" id="pdot-1"></div>
+                    <div class="page-dot" id="pdot-2"></div>
+                    <div class="page-dot" id="pdot-3"></div>
+                    <div class="page-dot" id="pdot-4"></div>
+                </div>
+            </div>
+
+            <!-- صفحات المحتوى -->
+            <div class="pages-wrapper">
+
+                <!-- الصفحة 1 من المحتوى (التهنئة بعيد الميلاد) -->
+                <div class="page active" id="page-1">
+                    <span class="section-tag">عيد ميلاد سعيد يا حمودي 🎈</span>
+                    <h2 class="page-title">كل سنة وأنت طيب يا حبيبي 🤎</h2>
+                    
+                    <div class="birthday-card">
+                        <p class="card-text">
+                            قلبي سعيد بوجودك يا حمودي، ولأن النهاردة أول عيد ميلاد ليك وإحنا سوا —ويا رب العمر كله سوا— كان لازم يكون مختلف ومميز عن كل اللي فات. مع إن الحقيقة.. كل يوم وإنت في حياتي هو عيد 💚🙈 
+                            <br><br>
+                            كل سنة وأنت بخير، كل سنة وأنت معايا، ومكتفيين ببعض عن العالم، يارب دايما تكون لقلبي الحبيب الأول والأخير يا خير ما أهدتني الأيام، ربنا يديمك في حياتي نعمة ما تتوصفش، ويفضل وجودك هو السعادة الحقيقية لقلبي.
+                        </p>
+                        <div class="card-signature">
+                            بحبك جداً.. 💚 
+                        </div>
+                    </div>
+
+                    <div class="heart-badge">
+                        <i class="fa-solid fa-cake-candles"></i>
+                    </div>
+                </div>
+
+                <!-- الصفحة 2 من المحتوى (5 صور ذكريات) -->
+                <div class="page" id="page-2">
+                    <span class="section-tag">ذكرياتنا الجميلة 📸</span>
+                    <h2 class="page-title">فاكر الأيام دي؟ 🥹</h2>
+                    
+                    <div class="gallery-grid">
+                        
+                        <!-- الصورة 1 -->
+                        <div class="photo-card">
+                            <div class="photo-wrapper">
+                                <img src="Mohammed.jpg" alt="حمودي">
+                            </div>
+                            <div class="photo-caption">ضحكتك دي هي سر سعادتي 🌿</div>
+                        </div>
+
+                        <!-- الصورة 2 -->
+                        <div class="photo-card">
+                            <div class="photo-wrapper">
+                                <img src="Photo1.png" alt="ذكرى جميلة">
+                            </div>
+                            <div class="photo-caption">الصورة دي بحبها أوي… عشان إنت فيها 🤎</div>
+                        </div>
+
+                        <!-- الصورة 3 -->
+                        <div class="photo-card">
+                            <div class="photo-wrapper">
+                                <img src="Photo2.png" alt="ذكرى مع حمودي">
+                            </div>
+                            <div class="photo-caption">وجودك بيسعدني يا كشري 🥹</div>
+                        </div>
+
+                        <!-- الصورة 4 -->
+                        <div class="photo-card">
+                            <div class="photo-wrapper">
+                                <img src="Photo3.png" alt="تفصيلة جميلة">
+                            </div>
+                            <div class="photo-caption">إنت أحلى تفصيلة في حياتي ✨</div>
+                        </div>
+
+                        <!-- الصورة 5 -->
+                        <div class="photo-card">
+                            <div class="photo-wrapper">
+                                <img src="Photo4.jpg" alt="ذكرى تانية">
+                            </div>
+                            <div class="photo-caption">بحب التفاصيل الصغيرة اللي بتجمعنا 🤎</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- الصفحة 3 من المحتوى (فيديو وأغنية) -->
+                <div class="page" id="page-3">
+                    <span class="section-tag">لحظات بالصوت والصورة 🎵</span>
+                    <h2 class="page-title">فيديو وأغنيتنا المفضلة 🎥</h2>
+
+                    <!-- صندوق الفيديو -->
+                    <div class="media-box">
+                        <h3><i class="fa-solid fa-film"></i> فيديو الذكريات</h3>
+                        <div class="video-container">
+                            <video controls poster="Mohammed.jpg" playsinline>
+                                <source src="Vid.mp4" type="video/mp4">
+                                متصفحك لا يدعم تشغيل الفيديو.
+                            </video>
+                        </div>
+                    </div>
+
+                    <!-- صندوق الأغنية -->
+                    <div class="media-box">
+                        <h3><i class="fa-solid fa-music"></i> أغنية بتفكرني بيك</h3>
+                        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">
+                            اسمع الأغنية دي وأنت بتشوف ذكرياتنا سوا 🤎
+                        </p>
+                        <div class="audio-container">
+                            <audio controls preload="metadata">
+                                <source src="Song.m4a" type="audio/mp4">
+                                متصفحك لا يدعم تشغيل الصوت.
+                            </audio>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الصفحة 4 من المحتوى (رسالة لحبيب العمر) -->
+                <div class="page" id="page-4">
+                    <span class="section-tag">رسالة خاصة 💌</span>
+                    <h2 class="page-title">إلى حبيب العمر 🤎</h2>
+                    <div class="final-letter-card">
+                        <div class="letter-content">
+إلى رفيق العمر "محمد" 
+
+في يوم ميلادك لا أبحث عن كلمات كثيرة بل عن كلمات صادقة تليق بـ مكانتك في قلبي، 
+أدعو الله أن يرزقك الصحة والعافية وراحة البال، وأن يكتب لك في عامك الجديد من الخير ما يفوق أمنياتك.
+قد تمضي الأعوام وتتغير أشياء كثيرة، شكراً لكل لحظة جمعتني بك، ولكل ذكرى صنعتها معي، ولكل تعب بذلته من أجلي.
+كل عام وأنت أقرب الناس إلى قلبي،.
+عيد ميلاد سعيد يا حبيبي. 💚 
+                        </div>
+
+                        <div class="final-signature">
+                            دمت لي شيئاً جميلاً لا ينتهي 🌿🤎
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- أزرار التنقل السفلية -->
+            <div class="bottom-nav">
+                <button class="nav-btn" id="prev-btn" onclick="changePage(-1)" disabled>
+                    <i class="fa-solid fa-arrow-right"></i> السابق
+                </button>
+                <button class="nav-btn primary" id="next-btn" onclick="changePage(1)">
+                    التالي <i class="fa-solid fa-arrow-left"></i>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Script الأكواد البرمجية والتفاعلية -->
+    <script>
+        // ==========================================
+        // 1. برمجة الباسكود (1220)
+        // ==========================================
+        const targetPasscode = "1220";
+        let currentInput = "";
+
+        function pressKey(num) {
+            if (currentInput.length < 4) {
+                currentInput += num;
+                updateDots();
+                
+                if (currentInput.length === 4) {
+                    setTimeout(checkPasscode, 200);
+                }
+            }
+        }
+
+        function deleteKey() {
+            if (currentInput.length > 0) {
+                currentInput = currentInput.slice(0, -1);
+                updateDots();
+            }
+        }
+
+        function clearPasscode() {
+            currentInput = "";
+            updateDots();
+        }
+
+        function updateDots() {
+            for (let i = 1; i <= 4; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (i <= currentInput.length) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active', 'error');
+                }
+            }
+        }
+
+        function checkPasscode() {
+            if (currentInput === targetPasscode) {
+                // الباسورد صحيح!
+                createHearts();
+                document.getElementById('passcode-screen').classList.add('unlocked');
+            } else {
+                // الباسورد خطأ
+                for (let i = 1; i <= 4; i++) {
+                    document.getElementById(`dot-${i}`).classList.add('error');
+                }
+                setTimeout(() => {
+                    clearPasscode();
+                }, 600);
+            }
+        }
+
+        // ==========================================
+        // 2. التنقل بين الصفحات 4
+        // ==========================================
+        let currentPage = 1;
+        const totalPages = 4;
+
+        function changePage(step) {
+            const newPage = currentPage + step;
+            if (newPage >= 1 && newPage <= totalPages) {
+                // إخفاء الصفحة الحالية
+                document.getElementById(`page-${currentPage}`).classList.remove('active');
+                document.getElementById(`pdot-${currentPage}`).classList.remove('active');
+
+                currentPage = newPage;
+
+                // إظهار الصفحة الجديدة
+                document.getElementById(`page-${currentPage}`).classList.add('active');
+                document.getElementById(`pdot-${currentPage}`).classList.add('active');
+
+                // تحديث الأزرار
+                document.getElementById('prev-btn').disabled = (currentPage === 1);
+                
+                const nextBtn = document.getElementById('next-btn');
+                if (currentPage === totalPages) {
+                    nextBtn.innerHTML = `النهاية 🤎 <i class="fa-solid fa-heart"></i>`;
+                } else {
+                    nextBtn.innerHTML = `التالي <i class="fa-solid fa-arrow-left"></i>`;
+                }
+            }
+        }
+
+        // ==========================================
+        // 3. تأثير تساقط القلوب عند الفتح
+        // ==========================================
+        function createHearts() {
+            const colors = ['#1B382B', '#C5A059', '#2D5A45', '#8B0000'];
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-particle';
+                    heart.innerHTML = '🤎';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.top = '100vh';
+                    heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    document.body.appendChild(heart);
+
+                    setTimeout(() => heart.remove(), 2500);
+                }, i * 80);
+            }
+        }
+    </script>
+</body>
+</html>
